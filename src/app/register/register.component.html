@@ -1,0 +1,19 @@
+<br>
+<form #register="ngForm" (ngSubmit)="onSubmit(register)">
+    <div class="form-group">
+        <label for="email">Email adress:</label>
+        <input type="text" id="email" name="email" class="form-control" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" ngModel>
+    </div>
+    <div class="form-group">
+        <label for="password">Repeat password:</label>
+        <input type="password" id="checkpw" name="checkpw" class="form-control" placeholder="Repeat password" ngModel>
+    </div>
+    <div class="form-group" *ngIf="errorMessage" style="color:red">
+        {{errorMessage}}
+    </div>
+    <button type="submit" class="btn btn-dark">Register</button>
+</form>
