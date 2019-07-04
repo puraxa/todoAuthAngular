@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AngularFireAuthGuard, customClaims, redirectLoggedInTo, redirectUnauthorizedTo, canActivate} from '@angular/fire/auth-guard';
+import { AngularFireAuthGuard, hasCustomClaim, redirectLoggedInTo, redirectUnauthorizedTo, canActivate, customClaims} from '@angular/fire/auth-guard';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -8,14 +8,13 @@ import { TodoComponent } from './todo/todo.component';
 
 const redirectLoggedIn = redirectLoggedInTo(['todolist']);
 const redirectUnauthorized = redirectUnauthorizedTo(['login']);
-
-
+const customClaim = hasCustomClaim('admin');
 const routes: Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'},
   {path:'login', component: LoginComponent, ...canActivate(redirectLoggedIn)},
   {path:'register', component: RegisterComponent, ...canActivate(redirectLoggedIn)},
   {path:'todolist',component: TodoComponent, ...canActivate(redirectUnauthorized)},
-  {path:'admin', component: AdminComponent, ...canActivate(redirectUnauthorized)}
+  {path:'admin', component: AdminComponent, ...canActivate(customClaim)}
 ];
 
 @NgModule({

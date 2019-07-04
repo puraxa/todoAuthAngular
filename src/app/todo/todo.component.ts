@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-todo',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoComponent implements OnInit {
 
-  constructor() { }
+  constructor(public auth:AngularFireAuth) { }
 
   ngOnInit() {
+    this.auth.auth.currentUser.getIdTokenResult().then(user => {
+      console.log(user.claims);
+    })
   }
 
 }
