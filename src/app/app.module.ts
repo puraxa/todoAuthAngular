@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,7 +31,9 @@ import { TodoComponent } from './todo/todo.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     FormsModule,
     AngularFireAuthModule,
-    AngularFireAuthGuardModule
+    AngularFireAuthGuardModule,
+    AngularFireFunctionsModule,
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

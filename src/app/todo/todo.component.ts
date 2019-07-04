@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-
+import { AngularFirestore } from '@angular/fire/firestore';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -8,12 +8,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class TodoComponent implements OnInit {
 
-  constructor(public auth:AngularFireAuth) { }
+  constructor(public auth:AngularFireAuth, public db:AngularFirestore) { }
 
   ngOnInit() {
-    this.auth.auth.currentUser.getIdTokenResult().then(user => {
-      console.log(user.claims);
-    })
-  }
 
+  }
+  
 }
