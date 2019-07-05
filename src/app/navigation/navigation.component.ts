@@ -12,6 +12,13 @@ export class NavigationComponent implements OnInit {
   constructor(public auth:AngularFireAuth, public router:Router, public globals:GlobalsService) { }
 
   ngOnInit() {
+    this.globals.checkLoggedIn();
+    // this.auth.idTokenResult.subscribe(nesto => {
+    //   if(nesto){
+    //     return this.globals.isLoggedIn = true;
+    //   }
+    //   this.globals.isLoggedIn = false;
+    // })
   }
   logout = async() => {
     try {

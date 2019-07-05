@@ -11,6 +11,7 @@ import { throwError } from 'rxjs';
 })
 export class RegisterComponent implements OnInit {
   errorMessage:string;
+  showSpinner:boolean = false;
   constructor(public auth:AngularFireAuth, public router:Router) {
     
   }
@@ -18,12 +19,15 @@ export class RegisterComponent implements OnInit {
   }
   onSubmit = async(formData:NgForm) => {
     try {
+      this.showSpinner = true;
       if(formData.value.password != formData.value.checkpw){
         throw new Error('Passwords dont match!');
       }
       await this.auth.auth.createUserWithEmailAndPassword(formData.value.email,formData.value.password);
+      this.showSpinner = false;
       this.router.navigate(['todolist']);
     } catch (err) {
+      this.showSpinner = false;
       this.errorMessage = err.message;
     }
   }

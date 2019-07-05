@@ -9,17 +9,21 @@ import { GlobalsService } from '../globals.service';
 })
 export class LoginComponent implements OnInit {
   errorMessage:string;
+  showSpinner:boolean = false;
   constructor(public auth: AngularFireAuth, public router:Router, public globals:GlobalsService) { }
 
   ngOnInit() {
   }
   onSubmit = async(form) => {
     try {
+      this.showSpinner = true;
       const user = await this.auth.auth.signInWithEmailAndPassword(form.value.email,form.value.password);
       this.globals.isLoggedIn = true;
+      this.showSpinner = false;
       this.router.navigate(['todolist']);
       console.log(form.value);  
     } catch (err) {
+      this.showSpinner = false;
       this.errorMessage = err.message;
     }
   }
