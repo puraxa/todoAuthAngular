@@ -1,49 +1,70 @@
-<div *ngFor="let item of items | async" class="row" style="margin-top:15px;">
-	<div class="col-6  col-md-9" [ngClass]="{'doneItem':item.done}">
-		{{item.value}}
-	</div>
-	<div class="col-2 col-md-1">
-		<i class="fas fa-check" (click)="doneItem(item.id);"></i>
-	</div>
-	<div class="col-2 col-md-1">
-		<i class="fas fa-edit" (click)="showEdit(item.id)"></i>
-	</div>
-	<div class="col-2 col-md-1">
-		<i class="fas fa-trash" (click)="deleteItem(item.id)"></i>
-	</div>
-	<div class="col-12" *ngIf="item.edit">
-		<div class="row">
-			<div class="col-10">
-				<input type="text" [(ngModel)]="editValue" (change)="editItem(item.id)">
-			</div>
-			<div class="col-2">
-				<i class="fas fa-check" (click)="editItem(item.id)"></i>
-			</div>
-		</div>
-    </div>
+<div (click)="move()" class="todoswitch">
+	Todo/Done
 </div>
-<input type="text" [(ngModel)]="newItemValue" (change)="addItem()" id="newValue">
-<div *ngIf="errorMessage" style="color:red">
-	{{errorMessage}}
-
+<div>
+	<input type="text" [(ngModel)]="newItemValue" (change)="addItem()" placeholder="Add new item">
 </div>
-<i class="fas fa-plus-circle add-icon" data-toggle="modal" data-target="#exampleModal"></i>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">New item</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<input type="text" [(ngModel)]="newItemValue" placeholder="New item value">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-dark" (click)="addItem()" data-dismiss="modal">Add item</button>
-			</div>
+<div style="width:100%;margin:auto; padding:0; overflow:hidden;">
+<div class="row flex-width" style="align-items: flex-start;" [@leftRight]="leftRight ? 'right' : 'left'">
+	<div class="card col-6" style="width:500px;" cdkDropList (cdkDropListDropped)="drop($event)"
+		[cdkDropListData]="items" [cdkDropListConnectedTo]="doneList" #list="cdkDropList" style="padding:0;">
+		<div class="card-header">
+			Todo
 		</div>
+		<ul class="list-group list-group-flush">
+			<li cdkDrag *ngFor="let item of items | async" class="list-group-item" [attr.id]="item.id"
+				style="height: 50px; overflow: hidden; padding: 0; line-height: 50px;vertical-align: middle;padding-left: 0.75rem;"
+				[@dropDown]="item.edit ? 'dropped' : 'notDropped'">
+				<div style="height: 100px; width: 100%;">
+					<div style="height: 50px" class="row">
+						<div class="col-2">
+							<input type="checkbox" (change)="doneItem(item.id)">
+						</div>
+						<div class="col-10" (click)="showEdit(item.id)">
+							{{item.value}}
+						</div>
+					</div>
+					<div style="height:50px" class="row">
+						<div class="col-2" style="text-align: center" (click)="deleteItem(item.id)">
+							<i class="fas fa-trash"></i>
+						</div>
+						<div class="col-10">
+							<input type="text" style="height: 60%;margin:0; padding:0;" placeholder="Edit item" [(ngModel)]="editValue" (change)="editItem(item.id)">
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
 	</div>
+	<div class="card col-6" style="width:500px;" cdkDropList (cdkDropListDropped)="drop($event)"
+		[cdkDropListData]="doneItems" [cdkDropListConnectedTo]="list" #doneList="cdkDropList" style="padding:0;">
+		<div class="card-header">
+			Done
+		</div>
+		<ul class="list-group list-group-flush">
+			<li cdkDrag *ngFor="let item of doneItems | async" class="list-group-item" [attr.id]="item.id"
+				style="height: 50px; overflow: hidden; padding: 0; line-height: 50px;vertical-align: middle;padding-left: 0.75rem;"
+				[@dropDown]="item.edit ? 'dropped' : 'notDropped'">
+				<div style="height: 100px; width: 100%;">
+					<div style="height: 50px" class="row">
+						<div class="col-2">
+							<input type="checkbox" checked (change)="doneItem(item.id)">
+						</div>
+						<div class="col-10" (click)="showEdit(item.id)">
+							{{item.value}}
+						</div>
+					</div>
+					<div style="height:50px" class="row">
+						<div class="col-2" style="text-align: center" (click)="deleteItem(item.id)">
+							<i class="fas fa-trash"></i>
+						</div>
+						<div class="col-10">
+							<input type="text" style="height: 60%;margin:0; padding:0;" placeholder="Edit item" [(ngModel)]="editValue" (change)="editItem(item.id)">
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
 </div>

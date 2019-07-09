@@ -1,23 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GlobalsService } from '../globals.service';
+import { CdkDropList, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { transition, trigger, style, state, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css']
+  styleUrls: ['./todo.component.css'],
+  animations: [
+    trigger('dropDown', [
+      state('notDropped',style({
+        height: '50px',
+      })),
+      state('dropped', style({
+        height: '100px',
+      })),
+      transition('notDropped => dropped',[
+        animate('1s'),
+      ]),
+      transition('dropped => notDropped', [
+        animate('1s'),
+      ])
+    ]),
+    trigger('leftRight',[
+      state('left', style({
+        left: '0'
+      })),
+      state('right', style({
+        left: '-100%'
+      })),
+      transition('left => right',[
+        animate('0.5s')
+      ]),
+      transition('right => left', [
+        animate('0.5s')
+      ])
+    ])
+  ]
 })
 export class TodoComponent implements OnInit {
+  leftRight = false;
   newItemValue:string;
   editValue:string;
   items;
+  doneItems;
   errorMessage:string;
   constructor(public db:AngularFirestore,public globals:GlobalsService) {
-    this.items = db.collection('items').valueChanges();
+    this.items = db.collection('items', ref => ref.orderBy('dateCreated','desc').where('done','==', false)).valueChanges();
+    this.doneItems = db.collection('items',ref => ref.orderBy('dateCreated','desc').where('done' , '==', true)).valueChanges();
   }
 
   ngOnInit() {
     this.globals.checkLoggedIn();
+  }
+  move = () => {
+    this.leftRight = !this.leftRight;
   }
   addItem = () => {
     this.errorMessage = null;
@@ -52,4 +90,10 @@ export class TodoComponent implements OnInit {
       this.showEdit(id);
     })
   }
+  drop = (event: CdkDragDrop<any>, id) => {
+    if(event.container != event.previousContainer){
+      this.doneItem(event.item.element.nativeElement.id);
+    }
+  }
+
 }

@@ -7,6 +7,8 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { AngularFireFunctionsModule, FUNCTIONS_ORIGIN, FUNCTIONS_REGION } from '@angular/fire/functions';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { HttpClientModule } from '@angular/common/http';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +37,9 @@ import { TodoComponent } from './todo/todo.component';
     AngularFireAuthGuardModule,
     AngularFireFunctionsModule,
     AngularFirestoreModule,
-    HttpClientModule
+    HttpClientModule,
+    DragDropModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {provide:FUNCTIONS_REGION, useValue:'europe-west1'}

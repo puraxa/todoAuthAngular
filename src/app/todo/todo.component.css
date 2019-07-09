@@ -17,6 +17,26 @@ input {
 .doneItem {
     text-decoration: line-through;
 }
+.justify {
+    justify-items: flex-start;
+}
+.flex-width {
+    position: relative;
+    width:200%;
+    margin: 0;
+}
+.todoswitch {
+    text-align: center;
+    font-size: 32px;
+}
+@media (min-width:576px){
+    .todoswitch {
+        display: none;
+    }
+    .flex-width{
+        width: 100%;
+    }
+}
 @media (min-width: 768px){
     .add-icon{
         display:none;
@@ -24,4 +44,7 @@ input {
     #newValue{
         display: block;
     }
+}
+.list-group-item:hover {
+    background-color: gray;
 }
