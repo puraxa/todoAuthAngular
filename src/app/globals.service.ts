@@ -10,6 +10,10 @@ export class GlobalsService {
   constructor(public auth:AngularFireAuth) { }
   checkLoggedIn = () => {
     this.auth.idTokenResult.subscribe(nesto=> {
+      if(nesto==null){
+        this.isAdmin = false;
+        return;
+      }
       this.isAdmin = nesto.claims.admin;
       if(nesto){
         return this.isLoggedIn = true;

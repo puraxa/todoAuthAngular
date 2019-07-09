@@ -10,7 +10,8 @@ import { map } from 'rxjs/operators';
 
 const redirectLoggedIn = redirectLoggedInTo(['todolist']);
 const redirectUnauthorized = redirectUnauthorizedTo(['login']);
-const nesto = pipe(customClaims,map(claims => claims.admin === true))
+const nesto = pipe(customClaims,map(claims => claims.admin === true));
+
 const routes: Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'},
   {path:'login', component: LoginComponent, ...canActivate(redirectLoggedIn)},

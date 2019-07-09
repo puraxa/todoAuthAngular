@@ -3,6 +3,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-admin',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
   token:string;
+  id:string;
   userInfo;
   constructor(public fns: AngularFireFunctions, public http:HttpClient, public auth:AngularFireAuth, public router:Router) { 
   }
@@ -18,7 +20,7 @@ export class AdminComponent implements OnInit {
   
   ngOnInit() {
     this.auth.idTokenResult.subscribe(nesto=>{
-      console.log(nesto.token);
+      this.id = nesto.claims.user_id;
       this.token = nesto.token;
       this.http.post('https://europe-west1-todo-11f67.cloudfunctions.net/getUsers',JSON.stringify({token: this.token})).subscribe(users => {
         this.userInfo = users;
@@ -36,9 +38,15 @@ export class AdminComponent implements OnInit {
   removeAdmin = (uid) => {
     this.userInfo = null;
     this.http.post('https://europe-west1-todo-11f67.cloudfunctions.net/removeAdmin',JSON.stringify({uid:uid, token: this.token})).subscribe(nesto => {
-      this.http.post('https://europe-west1-todo-11f67.cloudfunctions.net/getUsers',JSON.stringify({token: this.token})).subscribe(users => {
-        this.userInfo = users;
-      });
+      if(this.id == uid){
+        this.auth.auth.currentUser.getIdToken(true);
+        this.router.navigate(['todolist']);
+        return;
+      }else{
+        this.http.post('https://europe-west1-todo-11f67.cloudfunctions.net/getUsers',JSON.stringify({token: this.token})).subscribe(users => {
+          this.userInfo = users;
+        });
+      }
     });
   }
 }

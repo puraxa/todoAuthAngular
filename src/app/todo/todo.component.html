@@ -1,7 +1,10 @@
-<div (click)="move()" class="todoswitch">
-	Todo/Done
+<div class="error" [@upDown]="upDown ? 'down' : 'up'">
+	{{errorMessage}}
 </div>
-<div>
+<div (click)="move()" class="todoswitch">
+	<span [ngClass]="{'bold': !leftRight}">Todo</span>/<span [ngClass]="{'bold': leftRight}">Done</span>
+</div>
+<div class="add-new">
 	<input type="text" [(ngModel)]="newItemValue" (change)="addItem()" placeholder="Add new item">
 </div>
 <div style="width:100%;margin:auto; padding:0; overflow:hidden;">
@@ -14,7 +17,8 @@
 		<ul class="list-group list-group-flush">
 			<li cdkDrag *ngFor="let item of items | async" class="list-group-item" [attr.id]="item.id"
 				style="height: 50px; overflow: hidden; padding: 0; line-height: 50px;vertical-align: middle;padding-left: 0.75rem;"
-				[@dropDown]="item.edit ? 'dropped' : 'notDropped'">
+				[@dropDown]="item.edit ? 'dropped' : 'notDropped'"
+				[cdkDragDisabled]="mobile">
 				<div style="height: 100px; width: 100%;">
 					<div style="height: 50px" class="row">
 						<div class="col-2">
@@ -44,7 +48,8 @@
 		<ul class="list-group list-group-flush">
 			<li cdkDrag *ngFor="let item of doneItems | async" class="list-group-item" [attr.id]="item.id"
 				style="height: 50px; overflow: hidden; padding: 0; line-height: 50px;vertical-align: middle;padding-left: 0.75rem;"
-				[@dropDown]="item.edit ? 'dropped' : 'notDropped'">
+				[@dropDown]="item.edit ? 'dropped' : 'notDropped'"
+				[cdkDragDisabled]="mobile">
 				<div style="height: 100px; width: 100%;">
 					<div style="height: 50px" class="row">
 						<div class="col-2">

@@ -16,5 +16,5 @@
     <div class="form-group" *ngIf="errorMessage" style="color:red">
         {{errorMessage}}
     </div>
-    <button type="submit" class="btn btn-dark">Login</button>
+    <button type="submit" class="btn btn-dark" [disabled]="disabled">Login</button>
 </form>

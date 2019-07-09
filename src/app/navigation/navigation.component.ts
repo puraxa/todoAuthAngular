@@ -26,7 +26,7 @@ export class NavigationComponent implements OnInit {
       this.globals.isLoggedIn = false;
       this.router.navigate(['login']);
     } catch (err) {
-      console.log(err);
+      return;
     }
   }
 }

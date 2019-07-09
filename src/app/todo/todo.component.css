@@ -29,6 +29,31 @@ input {
     text-align: center;
     font-size: 32px;
 }
+.todoswitch:hover{
+    cursor: pointer;
+}
+.error {
+    position: fixed;
+    top: -50px;
+    height: 50px;
+    background-color: black;
+    color: red;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0; 
+    padding: 0;
+    z-index: 9;
+    font-weight: bolder;
+}
+.bold {
+    font-weight: bold;
+}
+.add-new {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+}
 @media (min-width:576px){
     .todoswitch {
         display: none;
